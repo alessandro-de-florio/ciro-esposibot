@@ -5,12 +5,51 @@ import os
 from discord.ext import commands
 from random import choice
 from time import sleep
+from requests import get
+from youtube_dl import YoutubeDL
+
 
 token = "ODI0MTk4OTY3NDgxOTkxMTY4.Y"
 token += "Fr5Gg.OQNpbZEQ-iFB6u8n0KAkxNIn20I"
 
 client = commands.Bot(command_prefix = ">")
-language = "it"
+
+
+ydl_opts = {
+    'format': 'bestaudio/best',
+    'outtmpl':"ciruzzo_music.mp3",
+    'postprocessors': [{
+        'key': 'FFmpegExtractAudio',
+        'preferredcodec': 'mp3',
+        'preferredquality': '192',
+    }],
+}
+
+def search_video(arg):
+    with YoutubeDL(ydl_opts) as ydl:
+        try:
+            get(arg) 
+        except:
+            video = ydl.extract_info(f"ytsearch:{arg}", download=False)['entries'][0]
+        else:
+            video = ydl.extract_info(arg, download=False)
+
+    return video
+
+
+def download_song(video):
+    if video == "":
+        return
+    
+    url = search_video(video)['webpage_url']
+    print(f"debug:searching {url}")
+
+    with YoutubeDL(ydl_opts) as ydl:
+        ydl.download([url])
+        return
+
+
+
 
 @client.event
 async def on_ready():
@@ -25,6 +64,7 @@ async def on_member_join(member):
 @client.event
 async def on_member_remove(member):
     print(f"guapp {member} left")
+
 
 @client.command()
 async def ping(ctx):
@@ -74,7 +114,23 @@ async def citazioni(ctx):
 
 
 @client.command()
+async def canzun(ctx, *, canzone = ''):
+    if canzone == "":
+        ctx.send("uagliu ba che cazz ste ricenn?")
+        return
+    try:
+        os.remove("ciruzzo_music.mp3")
+    except:
+        pass
+    download_song(video = canzone + " neomelodica")
+        
+    await play(ctx, "ciruzzo_music.mp3")
+
+
+
+@client.command()
 async def sapone(ctx):
+
     await play(ctx, file_mp3 = "sapone_response.mp3")
 
 @client.command(aliases=['paly', 'queue', 'que'])
@@ -136,8 +192,12 @@ async def join(ctx,*,please=""):
 
 
 @client.command()
-async def leave(ctx,earrape=True):
+async def leave(ctx, *, text = "", earrape=True):
+    if text == "please":
+        earrape = False
     if earrape: await sapone(ctx)
     sleep(9)
     await ctx.voice_client.disconnect()
 client.run(token)
+
+
