@@ -3,6 +3,7 @@ from gtts import gTTS
 import os
 from discord.ext import commands
 from random import choice
+from time import sleep
 
 
 client = commands.Bot(command_prefix = ">")
@@ -29,10 +30,28 @@ async def ping(ctx):
 
 
 @client.command(aliases = ["sesso_insieme_a", "sesso_con"])
-async def sesso(ctx, * , uagliona):
+async def sesso(ctx, * , uagliona = "mammt"):
     respones = ["solare sul pianeta del napoli",
                 "pazzo sul letto del napoli",
-                "sfrenato sul divanetto del napoli"]
+                "sfrenato sul divanetto del napoli",
+                "artistico nell' osteria del napoli",
+                "gourmet nella pizzeria di gennaro(del napoli)",
+                "intellettuale all'\"università Federico II di napoli\" del napoli",
+                "napoletano nella napoli del napoli",
+                "diabetico nella pasticceria del napoli",
+                "pesce in mano sul divanetto del napoli",
+                "esplosivo sui petardi del napoli",
+                "abusivo in una palazzina sul Vesuvio",
+                "rumoroso sul balcone delle vrenzole di napoli",
+                "asmatico nell' ASL del napoli",
+                "fraudolento con le canzoni neomelodiche del napoli",
+                "incaprettatto a capri del napoli",
+                "stellare con De Laurentis sulla Villa Comunale del napoli",
+                "iperbolico nell'iperspazio del napoli",
+                "tra le onde alla Reggia di Capodimonte a napoli",
+                "paralipomenico della batracomiomachia del napoli",
+                "ansimante a Piazza Mercante di Napoli"
+                ]
     
     await ctx.send(f"sesso {choice(respones)} con {uagliona} ")
 
@@ -48,9 +67,11 @@ async def citazioni(ctx):
     output = gTTS(text = quote, lang = "it", slow = False)
     output.save("ciro_quote_temp.mp3")
     await play(ctx, file_mp3 = "ciro_quote_temp.mp3")
-    
 
 
+@client.command()
+async def sapone(ctx):
+    await play(ctx, file_mp3 = "sapone_response.mp3")
 
 @client.command(aliases=['paly', 'queue', 'que'])
 async def play(ctx, file_mp3 = 'funiculi_funicula.mp3' ):
@@ -98,9 +119,14 @@ async def unban(ctx, *, member):
 @client.command()
 async def join(ctx):
     channel = ctx.author.voice.channel
+    await ctx.send("sto facenn nu maronn ij cacio e maccarun e nessun m'add 'a scassà o' cazz")
     await channel.connect()
+
+
 @client.command()
 async def leave(ctx):
+    await sapone(ctx)
+    sleep(9)
     await ctx.voice_client.disconnect()
 #client.run("ODI0MTk4NDM4ODYxNDA2Mjc4.YFr4nA.D5q9c4gyPXusqt3GqefGDE8z5-w")
-client.run("ODI0MTk4OTY3NDgxOTkxMTY4.YFr5Gg.azhz7zHM_OxEcOqHh_7FgWm5IXM")
+client.run("ODI0MTk4OTY3NDgxOTkxMTY4.YFr5Gg._Hnmx3r7WDPIy49M3rUCem4e1QQ")
