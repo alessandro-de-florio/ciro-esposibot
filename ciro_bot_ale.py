@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import discord
 from gtts import gTTS
 import os
@@ -5,6 +6,8 @@ from discord.ext import commands
 from random import choice
 from time import sleep
 
+token = "ODI0MTk4OTY3NDgxOTkxMTY4.Y"
+token += "Fr5Gg.OQNpbZEQ-iFB6u8n0KAkxNIn20I"
 
 client = commands.Bot(command_prefix = ">")
 language = "it"
@@ -32,6 +35,7 @@ async def ping(ctx):
 @client.command(aliases = ["sesso_insieme_a", "sesso_con"])
 async def sesso(ctx, * , uagliona = "mammt"):
     respones = ["solare sul pianeta del napoli",
+                "malato nell'ospizio del napoli",
                 "pazzo sul letto del napoli",
                 "sfrenato sul divanetto del napoli",
                 "artistico nell' osteria del napoli",
@@ -117,16 +121,23 @@ async def unban(ctx, *, member):
 
 
 @client.command()
-async def join(ctx):
+async def join(ctx,*,please=""):
     channel = ctx.author.voice.channel
-    await ctx.send("sto facenn nu maronn ij cacio e maccarun e nessun m'add 'a scassà o' cazz")
     await channel.connect()
+    if not (please=="please"):
+        await ctx.send("sto facenn nu maronn ij cacio e maccarun e nessun m'add 'a scassà o' cazz")
+        await sapone(ctx)
+        sleep(8)
+        await ctx.send("si chiede o' please scostumat")
+        gTTS("si chiede o' please scostumàTt e' mierd.",lang="it",slow=False).save("ciro_quote_temp.mp3")
+        await play(ctx,file_mp3="ciro_quote_temp.mp3")
+        sleep(6)
+        await leave(ctx,earrape=False)
 
 
 @client.command()
-async def leave(ctx):
-    await sapone(ctx)
+async def leave(ctx,earrape=True):
+    if earrape: await sapone(ctx)
     sleep(9)
     await ctx.voice_client.disconnect()
-#client.run("ODI0MTk4NDM4ODYxNDA2Mjc4.YFr4nA.D5q9c4gyPXusqt3GqefGDE8z5-w")
-client.run("ODI0MTk4OTY3NDgxOTkxMTY4.YFr5Gg._Hnmx3r7WDPIy49M3rUCem4e1QQ")
+client.run(token)
